@@ -108,12 +108,11 @@ Así nos aseguramos de que todo llegue fresco y recién elaborado 🧡`,
 Con esos datos te confirmo disponibilidad y el total 🧡`,
 
   // --- DERIVAR A HUMANO ---
-  derivar_humano: `Gracias por escribirnos 🧡 En breve te responde alguien del equipo para ayudarte con eso puntualmente. ¡No te preocupes que ya vimos tu mensaje! 👋
-
+  derivar_humano: `Gracias por escribirnos 🧡 En breve te responde alguien del equipo para ayudarte con eso puntualmente.
 Si querés ver las opciones de nuevo, escribí *menu*.`,
 
   // --- CIERRE PEDIDO (después de que dieron los datos) ---
-  cierre_pedido: `¡Recibido! ✅ En breve te confirmamos disponibilidad, total y coordinamos entrega/retiro. Gracias por elegir Nonna Julia 🧡`,
+  cierre_pedido: `¡Recibido! ✅ En breve alguien del equipo te confirma disponibilidad, total y coordinamos entrega/retiro. Gracias por elegir Nonna Julia 🧡`,
 };
 
 // ============================================
