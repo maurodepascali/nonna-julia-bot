@@ -18,6 +18,20 @@ const IG_TOKEN = process.env.IG_TOKEN;                   // token de Instagram (
 // (se resetea si el servidor se reinicia — para este volumen no es problema)
 const estadoUsuarios = {};
 
+// Bug conocido de Meta: para números argentinos, el webhook entrega el número
+// CON el "9" (ej: 5491121579513) pero en modo prueba la lista de autorizados
+// a veces lo tiene guardado SIN el 9 (5411121579513). Si no coinciden, falla
+// el envío con error 131030 aunque sea el mismo número real.
+// Esta función prueba primero con el número tal cual llegó, y si Meta lo
+// rechaza por "not in allowed list", reintenta sacando el 9.
+function quitarNueveArgentino(numero) {
+  // Formato: 549 + código de área + número (ej: 549 11 21579513)
+  if (numero.startsWith('549')) {
+    return '54' + numero.slice(3);
+  }
+  return numero;
+}
+
 // ============================================
 // VERIFICACIÓN DEL WEBHOOK (Meta lo pide una sola vez al configurar)
 // ============================================
@@ -101,15 +115,7 @@ async function manejarMensaje(texto, from, canal) {
 async function enviarMensaje(texto, to, canal) {
   try {
     if (canal === 'whatsapp') {
-      await axios.post(
-        `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`,
-        {
-          messaging_product: 'whatsapp',
-          to,
-          text: { body: texto },
-        },
-        { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
-      );
+      await enviarWhatsapp(texto, to);
     }
 
     if (canal === 'instagram') {
@@ -124,6 +130,40 @@ async function enviarMensaje(texto, to, canal) {
     }
   } catch (err) {
     console.error('Error enviando mensaje:', err.response?.data || err.message);
+  }
+}
+
+async function enviarWhatsapp(texto, to) {
+  try {
+    await axios.post(
+      `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`,
+      {
+        messaging_product: 'whatsapp',
+        to,
+        text: { body: texto },
+      },
+      { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
+    );
+  } catch (err) {
+    const codigo = err.response?.data?.error?.code;
+
+    // Si falla por "not in allowed list" (131030) y es un número argentino,
+    // reintentamos una vez sacando el 9 extra.
+    if (codigo === 131030 && to.startsWith('549')) {
+      const numeroAlternativo = quitarNueveArgentino(to);
+      console.log(`Reintentando envío a ${numeroAlternativo} (sin el 9)`);
+      await axios.post(
+        `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`,
+        {
+          messaging_product: 'whatsapp',
+          to: numeroAlternativo,
+          text: { body: texto },
+        },
+        { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
+      );
+    } else {
+      throw err;
+    }
   }
 }
 
