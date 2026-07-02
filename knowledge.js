@@ -93,7 +93,7 @@ Así nos aseguramos de que todo llegue fresco y recién elaborado 🧡`,
   duracion: `🧊 El chipá dura entre *4 y 6 meses* en el freezer sin perder calidad. Conservalo bien cerrado y listo para cuando lo necesites 🧡`,
 
   // --- PEDIDO MÍNIMO MINORISTA ---
-  pedido_minimo: `No hay un mínimo de compra, podés pedir desde 250g ($8.000).
+  pedido_minimo: `No hay un mínimo de compra pero según la cantidad se puede aplicar costo de envío.
 
 El envío sin cargo es a partir de $20.000 — sino, el costo es de $3.000 📦`,
 
