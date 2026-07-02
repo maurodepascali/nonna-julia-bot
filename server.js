@@ -19,6 +19,21 @@ const IG_TOKEN = process.env.IG_TOKEN;                   // token de Instagram (
 // (se resetea si el servidor se reinicia — para este volumen no es problema)
 const estadoUsuarios = {};
 
+// Recuerda si la última respuesta relevante fue catálogo o mayorista, para que
+// si la persona después escribe algo que no reconocemos (ej: "Palermo", una
+// cantidad, un día), lo tratemos como el inicio de un pedido en vez de
+// derivar directo a un humano.
+const ultimoInteres = {};
+
+// Se agrega al final de las respuestas informativas, para que la persona
+// siempre sepa cómo volver a ver las opciones.
+const FOOTER_MENU = '\n\n📲 Escribí *menu* para volver a las opciones.';
+const INTENTS_CON_FOOTER = ['catalogo', 'mayorista', 'envios', 'retiro', 'ubicacion', 'pagos', 'tiempos', 'duracion', 'pedido_minimo', 'tacc'];
+
+// Intents que, si la persona los vio último, hacen que un mensaje "sin_match"
+// se interprete como el arranque de un pedido en vez de un fallback genérico.
+const INTENTS_DE_INTERES = ['catalogo', 'mayorista'];
+
 // Bug conocido de Meta: para números argentinos, el webhook entrega el número
 // CON el "9" (ej: 5491121579513) pero en modo prueba la lista de autorizados
 // a veces lo tiene guardado SIN el 9 (5411121579513). Si no coinciden, falla
@@ -98,6 +113,7 @@ async function manejarMensaje(texto, from, canal) {
   // Así nadie queda "atrapado" en un flujo si se arrepiente o se equivocó.
   if (intent.nombre === 'saludo') {
     delete estadoUsuarios[from];
+    delete ultimoInteres[from];
     await enviarMensaje(intent.respuesta, from, canal);
     return;
   }
@@ -105,17 +121,36 @@ async function manejarMensaje(texto, from, canal) {
   let respuesta;
   let imageUrl = null;
 
-  // Si el usuario estaba en medio de dar los datos de un pedido,
-  // lo que escriba ahora se toma como esos datos y cerramos derivando.
   if (estadoUsuarios[from] === 'esperando_datos_pedido') {
+    // Estaba en medio de dar los datos de un pedido -> lo que escriba ahora
+    // se toma como esos datos y cerramos confirmando.
     respuesta = kb.cierre_pedido;
     delete estadoUsuarios[from];
+    delete ultimoInteres[from];
+  } else if (intent.nombre === 'sin_match' && INTENTS_DE_INTERES.includes(ultimoInteres[from])) {
+    // No reconocimos el mensaje, PERO la persona recién había mirado catálogo
+    // o mayorista — lo más probable es que esté contestando con su zona,
+    // cantidad o algo similar. En vez de derivar directo, le pedimos los
+    // datos del pedido, igual que si hubiese elegido la opción 6.
+    respuesta = kb.inicio_pedido;
+    estadoUsuarios[from] = 'esperando_datos_pedido';
+    delete ultimoInteres[from];
   } else {
     respuesta = intent.respuesta;
     imageUrl = imagenes[intent.nombre] || null; // solo catalogo y mayorista tienen imagen cargada
 
+    if (INTENTS_CON_FOOTER.includes(intent.nombre)) {
+      respuesta += FOOTER_MENU;
+    }
+
     if (intent.nombre === 'pedido') {
       estadoUsuarios[from] = 'esperando_datos_pedido';
+    }
+
+    if (INTENTS_DE_INTERES.includes(intent.nombre)) {
+      ultimoInteres[from] = intent.nombre;
+    } else {
+      delete ultimoInteres[from];
     }
   }
 

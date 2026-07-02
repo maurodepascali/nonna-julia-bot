@@ -58,10 +58,10 @@ Indicame de qué zona sos y coordinamos 😊`,
 
 *CABA*: a coordinar día y horario.
 
-*Provincia*: consultanos tu zona — muchas veces igual llegamos 😊
+*Provincia*: consultanos tu zona 😊
 
 💰 *Costo de envío*
-• Minorista: GRATIS a partir de $20.000 — sino $2.500
+• Minorista: GRATIS a partir de $20.000 — sino $3.000
 • Mayorista: GRATIS a partir de $100.000 — sino, consultamos si aplica costo según el pedido
 
 ¿Me contás tu zona para confirmarte?`,
@@ -96,9 +96,7 @@ Así nos aseguramos de que todo llegue fresco y recién elaborado 🧡`,
   pedido_minimo: `No tenemos un mínimo estricto — podés pedir desde 250g ($8.000). Eso sí, según la cantidad y tu zona puede aplicar costo de envío 📦 (mirá la sección de Envíos para más detalle)`,
 
   // --- SIN TACC / CELÍACOS ---
-  tacc: `🌾 Algunos productos son sin TACC, pero se elaboran en el mismo espacio que el resto, así que puede existir contaminación cruzada — no podemos garantizar que sea 100% libre de gluten.
-
-Si sos celíaco/a y querés consultar por un sabor puntual, contanos y te confirmamos 😊`,
+  tacc: `🌾 Los productos son sin TACC, pero puede existir contaminación cruzada — no podemos garantizar que sea 100% libre de gluten.`,
 
   // --- INICIO DE TOMA DE PEDIDO ---
   inicio_pedido: `¡Buenísimo! 📝 Contame:
