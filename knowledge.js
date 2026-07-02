@@ -44,9 +44,12 @@ Todo artesanal, sin conservantes, receta de la abuela Julia 👵🧡
 • Pack Chipá Relleno: $25.000
 • Pack Pan de Chipá: $18.000
 
-Pedido mínimo con 48/72hs de anticipación.
+📋 *Condiciones*
+• Pedido mínimo: 3kg (podés armar surtido, mínimo 1kg por variedad)
+• Con 72hs de anticipación
+• Seña del 50% para confirmar el pedido, saldo al momento de la entrega
 
-También tenemos un *pack degustación* a $14.000 para que pruebes antes de tu primer pedido grande — el monto se descuenta de tu primera compra.
+También tenemos un pack de degustación por $14.000 — incluye chipá clásico, los 5 sabores rellenos y pan de chipá. El envío es sin cargo. Y si después hacés un pedido mayorista, esos $14.000 se descuentan del total 😊
 
 Indicame de qué zona sos y coordinamos 😊`,
 
@@ -86,6 +89,17 @@ Alias: *nonna.julia*`,
 
 Así nos aseguramos de que todo llegue fresco y recién elaborado 🧡`,
 
+  // --- DURACIÓN EN FREEZER ---
+  duracion: `🧊 El chipá dura entre *4 y 6 meses* en el freezer sin perder calidad. Conservalo bien cerrado y listo para cuando lo necesites 🧡`,
+
+  // --- PEDIDO MÍNIMO MINORISTA ---
+  pedido_minimo: `No tenemos un mínimo estricto — podés pedir desde 250g ($8.000). Eso sí, según la cantidad y tu zona puede aplicar costo de envío 📦 (mirá la sección de Envíos para más detalle)`,
+
+  // --- SIN TACC / CELÍACOS ---
+  tacc: `🌾 Algunos productos son sin TACC, pero se elaboran en el mismo espacio que el resto, así que puede existir contaminación cruzada — no podemos garantizar que sea 100% libre de gluten.
+
+Si sos celíaco/a y querés consultar por un sabor puntual, contanos y te confirmamos 😊`,
+
   // --- INICIO DE TOMA DE PEDIDO ---
   inicio_pedido: `¡Buenísimo! 📝 Contame:
 
@@ -102,4 +116,15 @@ Si querés ver las opciones de nuevo, escribí *menu*.`,
 
   // --- CIERRE PEDIDO (después de que dieron los datos) ---
   cierre_pedido: `¡Recibido! ✅ En breve te confirmamos disponibilidad, total y coordinamos entrega/retiro. Gracias por elegir Nonna Julia 🧡`,
+};
+
+// ============================================
+// IMÁGENES (opcional)
+// Pegá acá el link DIRECTO a cada imagen (tiene que terminar en .jpg/.png/.webp,
+// no un link a Instagram ni a una carpeta de Drive). Si lo dejás vacío (''),
+// el bot manda solo texto como hasta ahora, sin romperse.
+// ============================================
+module.exports.imagenes = {
+  catalogo: 'https://raw.githubusercontent.com/maurodepascali/nonna-julia-bot/main/minorista052026.png',
+  mayorista: 'https://raw.githubusercontent.com/maurodepascali/nonna-julia-bot/main/mayorista052026.png',
 };

@@ -2,9 +2,9 @@
   "name": "nonna-julia-bot",
   "version": "1.0.0",
   "description": "Bot automático de WhatsApp e Instagram para Nonna Julia",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "express": "^4.19.2",

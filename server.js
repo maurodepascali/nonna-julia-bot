@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const { detectarIntencion } = require('./intents');
 const kb = require('./knowledge');
+const imagenes = require('./knowledge').imagenes;
 
 const app = express();
 app.use(express.json());
@@ -102,6 +103,7 @@ async function manejarMensaje(texto, from, canal) {
   }
 
   let respuesta;
+  let imageUrl = null;
 
   // Si el usuario estaba en medio de dar los datos de un pedido,
   // lo que escriba ahora se toma como esos datos y cerramos derivando.
@@ -110,22 +112,23 @@ async function manejarMensaje(texto, from, canal) {
     delete estadoUsuarios[from];
   } else {
     respuesta = intent.respuesta;
+    imageUrl = imagenes[intent.nombre] || null; // solo catalogo y mayorista tienen imagen cargada
 
     if (intent.nombre === 'pedido') {
       estadoUsuarios[from] = 'esperando_datos_pedido';
     }
   }
 
-  await enviarMensaje(respuesta, from, canal);
+  await enviarMensaje(respuesta, from, canal, { imageUrl });
 }
 
 // ============================================
 // ENVÍO DE MENSAJES
 // ============================================
-async function enviarMensaje(texto, to, canal) {
+async function enviarMensaje(texto, to, canal, opts = {}) {
   try {
     if (canal === 'whatsapp') {
-      await enviarWhatsapp(texto, to);
+      await enviarWhatsapp(to, texto, opts.imageUrl);
     }
 
     if (canal === 'instagram') {
@@ -143,17 +146,30 @@ async function enviarMensaje(texto, to, canal) {
   }
 }
 
-async function enviarWhatsapp(texto, to) {
+function construirPayloadWhatsapp(to, texto, imageUrl) {
+  if (imageUrl) {
+    // Mensaje con imagen: el texto va como "caption" debajo de la foto
+    return {
+      messaging_product: 'whatsapp',
+      to,
+      type: 'image',
+      image: { link: imageUrl, caption: texto },
+    };
+  }
+  return {
+    messaging_product: 'whatsapp',
+    to,
+    type: 'text',
+    text: { body: texto },
+  };
+}
+
+async function enviarWhatsapp(to, texto, imageUrl) {
+  const url = `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`;
+  const headers = { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } };
+
   try {
-    await axios.post(
-      `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`,
-      {
-        messaging_product: 'whatsapp',
-        to,
-        text: { body: texto },
-      },
-      { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
-    );
+    await axios.post(url, construirPayloadWhatsapp(to, texto, imageUrl), headers);
   } catch (err) {
     const codigo = err.response?.data?.error?.code;
 
@@ -162,15 +178,7 @@ async function enviarWhatsapp(texto, to) {
     if (codigo === 131030 && to.startsWith('549')) {
       const numeroAlternativo = quitarNueveArgentino(to);
       console.log(`Reintentando envío a ${numeroAlternativo} (sin el 9)`);
-      await axios.post(
-        `https://graph.facebook.com/v19.0/${PHONE_NUMBER_ID}/messages`,
-        {
-          messaging_product: 'whatsapp',
-          to: numeroAlternativo,
-          text: { body: texto },
-        },
-        { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
-      );
+      await axios.post(url, construirPayloadWhatsapp(numeroAlternativo, texto, imageUrl), headers);
     } else {
       throw err;
     }

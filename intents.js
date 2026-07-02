@@ -55,6 +55,21 @@ const INTENTS = [
     respuesta: kb.tiempos,
   },
   {
+    nombre: 'duracion',
+    keywords: ['dura', 'duracion', 'freezer', 'congelado cuanto', 'vencimiento', 'fecha de vencimiento', 'cuanto aguanta', 'se puede congelar'],
+    respuesta: kb.duracion,
+  },
+  {
+    nombre: 'pedido_minimo',
+    keywords: ['pedido minimo', 'minimo de compra', 'cantidad minima', 'puedo pedir poco', 'hay minimo'],
+    respuesta: kb.pedido_minimo,
+  },
+  {
+    nombre: 'tacc',
+    keywords: ['sin tacc', 'celiaco', 'celiaca', 'gluten', 'apto celiacos', 'libre de gluten'],
+    respuesta: kb.tacc,
+  },
+  {
     nombre: 'pedido',
     keywords: ['quiero pedir', 'hacer un pedido', 'quiero comprar', 'me interesa', 'quisiera pedir', 'quiero encargar', '6'],
     respuesta: kb.inicio_pedido,
