@@ -8,11 +8,11 @@ module.exports = {
 
   // --- SALUDO / MENÚ PRINCIPAL ---
   saludo: `¡Hola! 👋 Bienvenido a *Nonna Julia* 🧡
-Chipá artesanal congelado, receta de familia.
+Chipás artesanales congelados, con la receta de la abuela.
 
 Puedo ayudarte con:
-1️⃣ Ver catálogo y precios
-2️⃣ Precios mayorista
+1️⃣ Catálogo minorista
+2️⃣ Catálogo mayorista
 3️⃣ Envíos y zonas
 4️⃣ Retiro
 5️⃣ Formas de pago
@@ -46,20 +46,16 @@ Todo artesanal, sin conservantes, receta de la abuela Julia 👵🧡
 
 Pedido mínimo con 48/72hs de anticipación.
 
-También tenemos un *pack degustación* para que pruebes antes de tu primer pedido grande — el monto se descuenta de tu primera compra.
+También tenemos un *pack degustación* a $14.000 para que pruebes antes de tu primer pedido grande — el monto se descuenta de tu primera compra.
 
-¿Sos cafetería, confitería o comercio gastronómico? Contame tu zona y te paso más info 😊`,
+Indicame de qué zona sos y coordinamos 😊`,
 
   // --- ENVÍOS ---
   envios: `🚚 *Envíos*
 
 *CABA*: a coordinar día y horario.
 
-*Zona Norte*: Haedo, Ramos Mejía, Vicente López, Olivos, Florida ✅
-
-*Zona Sur* (Avellaneda y alrededores) y *Zona Oeste* más lejano: por el momento no llegamos 🙁
-
-*Provincia*: a consultar según la zona puntual.
+*Provincia*: consultanos tu zona — muchas veces igual llegamos 😊
 
 💰 *Costo de envío*
 • Minorista: GRATIS a partir de $20.000 — sino $2.500
@@ -78,6 +74,7 @@ También tenemos un *pack degustación* para que pruebes antes de tu primer pedi
 
 • Transferencia bancaria
 • MercadoPago
+• Efectivo
 
 Alias: *nonna.julia*`,
 
@@ -99,7 +96,9 @@ Así nos aseguramos de que todo llegue fresco y recién elaborado 🧡`,
 Con esos datos te confirmo disponibilidad y el total 🧡`,
 
   // --- DERIVAR A HUMANO ---
-  derivar_humano: `Gracias por escribirnos 🧡 En breve te responde alguien del equipo para ayudarte con eso puntualmente. ¡No te preocupes que ya vimos tu mensaje! 👋`,
+  derivar_humano: `Gracias por escribirnos 🧡 En breve te responde alguien del equipo para ayudarte con eso puntualmente. ¡No te preocupes que ya vimos tu mensaje! 👋
+
+Si querés ver las opciones de nuevo, escribí *menu*.`,
 
   // --- CIERRE PEDIDO (después de que dieron los datos) ---
   cierre_pedido: `¡Recibido! ✅ En breve te confirmamos disponibilidad, total y coordinamos entrega/retiro. Gracias por elegir Nonna Julia 🧡`,

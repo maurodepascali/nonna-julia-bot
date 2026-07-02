@@ -90,6 +90,17 @@ app.post('/webhook', async (req, res) => {
 // LÓGICA DE RESPUESTA
 // ============================================
 async function manejarMensaje(texto, from, canal) {
+  const intent = detectarIntencion(texto);
+
+  // Si el usuario quiere volver al menú (escribe "menu", "volver", "hola", etc.)
+  // eso SIEMPRE gana, incluso si estaba en medio de dar los datos de un pedido.
+  // Así nadie queda "atrapado" en un flujo si se arrepiente o se equivocó.
+  if (intent.nombre === 'saludo') {
+    delete estadoUsuarios[from];
+    await enviarMensaje(intent.respuesta, from, canal);
+    return;
+  }
+
   let respuesta;
 
   // Si el usuario estaba en medio de dar los datos de un pedido,
@@ -98,7 +109,6 @@ async function manejarMensaje(texto, from, canal) {
     respuesta = kb.cierre_pedido;
     delete estadoUsuarios[from];
   } else {
-    const intent = detectarIntencion(texto);
     respuesta = intent.respuesta;
 
     if (intent.nombre === 'pedido') {

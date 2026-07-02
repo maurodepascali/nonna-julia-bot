@@ -14,7 +14,7 @@ function normalizar(texto) {
 const INTENTS = [
   {
     nombre: 'saludo',
-    keywords: ['hola', 'buenas', 'buen dia', 'buenas tardes', 'buenas noches', 'hey', 'menu', 'inicio'],
+    keywords: ['hola', 'buenas', 'buen dia', 'buenas tardes', 'buenas noches', 'hey', 'menu', 'inicio', 'volver', 'opciones', 'menu principal'],
     respuesta: kb.saludo,
   },
   // mayorista va ANTES que catalogo: si el mensaje menciona "mayorista"
